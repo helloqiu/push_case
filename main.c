@@ -1,6 +1,10 @@
 //Date : 2015-3-21 19:34
 //Author : 张宇阳(helloqiu || heheda)
 //Description : write a game push case
+//
+//Date : 2015-3-21 23:00
+//Author : 张宇阳(helloqiu || heheda)
+//Description : change move() to make the code more clear
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
@@ -64,78 +68,39 @@ void refresh(void){
 //return 0 : can't move
 //return 1 : move successfully
 int move(char to){
-    if (to == 'w'){
-        if ((pnowx == cnowx + 1) && (pnowy == cnowy)){
-            if(map[cnowx - 1][cnowy] != '*'){
-                pnowx -= 1;
-                cnowx -= 1;
-                return 1;
-            }else{
-                return 0;
-            }
+    int move_x = 0;
+    int move_y = 0;
+    switch (to){
+        case 'w' :
+            move_x = -1;
+            break;
+        case 's' :
+            move_x = 1;
+            break;
+        case 'a' :
+            move_y = -1;
+            break;
+        case 'd' :
+            move_y = 1;
+            break;
+    }
+    if ((pnowx + move_x == cnowx) && (pnowy + move_y == cnowy)){
+        if (map[cnowx + move_x][cnowy + move_y] != '*'){
+            cnowx += move_x;
+            cnowy += move_y;
+            pnowx += move_x;
+            pnowy += move_y;
+            return 1;
         }else{
-            if (map[pnowx - 1][pnowy] != '*'){
-                pnowx -= 1;
-                return 1;
-            }else{
-                return 0;
-            }
+            return 0;
         }
     }
-
-    if (to == 's'){
-        if ((pnowx == cnowx - 1) && (pnowy == cnowy)){
-            if(map[cnowx + 1][cnowy] != '*'){
-                pnowx += 1;
-                cnowx += 1;
-                return 1;
-            }else{
-                return 0;
-            }
-        }else{
-            if (map[pnowx + 1][pnowy] != '*'){
-                pnowx += 1;
-                return 1;
-            }else{
-                return 0;
-            }
-        }
-    }
-    if (to == 'a'){
-        if ((pnowx == cnowx) && (pnowy == cnowy + 1)){
-            if(map[cnowx][cnowy - 1] != '*'){
-                pnowy -= 1;
-                cnowy -= 1;
-                return 1;
-            }else{
-                return 0;
-            }
-        }else{
-            if (map[pnowx][pnowy - 1] != '*'){
-                pnowy -= 1;
-                return 1;
-            }else{
-                return 0;
-            }
-        }
-    }
-    if (to == 'd'){
-        if ((pnowx == cnowx) && (pnowy == cnowy - 1)){
-            if(map[cnowx][cnowy + 1] != '*'){
-                pnowy += 1;
-                cnowy += 1;
-                return 1;
-            }else{
-                return 0;
-            }
-        }else{
-            if (map[pnowx][pnowy + 1] != '*'){
-                pnowy += 1;
-                return 1;
-            }else{
-                return 0;
-            }
-        }
+    if (map[pnowx + move_x][pnowy + move_y] != '*'){
+        pnowx += move_x;
+        pnowy += move_y;
+        return 1;
+    }else{
+        return 0;
     }
 }
 //judge if win
